@@ -59,7 +59,7 @@ export default {
       try {
         const resp = await axios.get('http://ddv-final.herokuapp.com/BlackFridayFiltered.json')
         if (!resp.data.error) {
-          console.log(resp.data)
+          // console.log(resp.data)
           this.data = resp.data
           this.data.map((d) => {
             delete d.Product_Category_1
