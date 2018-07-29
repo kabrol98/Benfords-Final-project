@@ -1,6 +1,6 @@
 <template>
     <div id="blackFriday">
-      <h3>Dataset 1: Black Friday Sales</h3>
+      <h2>Dataset 1: Black Friday Sales</h2>
       <p>The following data is from a Kaggle entry on sales during Black Friday. Here's a few records of the plotted data.</p>
       <md-table>
         <md-table-row>
@@ -14,17 +14,15 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
-      <p>Let's plot the amount of money purchased for a couple of records.
-      The following chart plots the amount purchased by User_ID for four records.</p>
-      <data-viz :data="mini" xcol="User_ID" ycol="Purchase" id="black-friday-1" xlabel="User_ID"/>
+      <h2>Benford's Black Friday Purchases</h2>
       <p>
-      That looks good. Now the dat for amount of money purchased spans quite a few orders of magnitude.
+      Now, the data for amount of money purchased spans a few orders of magnitude.
       It seems like this would be perfect for a demonstration of Benford's law. Let's try plotting the frequency
       of each leading digit for the purchases column.</p>
-      <!-- <md-button class="md-raised" @click="testbenford">Check benford equation</md-button> -->
-      <data-viz :data="benfordPoints" xcol="x" ycol="y" id="black-friday-benford"/>
-      <div class="slidecontainer">
-        <p>use this slider to control the number of values we use.</p>
+      <md-button class='md-raised' @click='activatePurchases = !activatePurchases'>Toggle Visualization </md-button>
+      <div class="purchasesViz" v-show="activatePurchases">
+        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="black-friday-benford" :activate="activatePurchases"/>
+        <p>Use this slider to control the number of values we use.</p>
         0<input type="range" min="1" max="5000" v-model="range" class="slider" id="myRange">5000
         <p>Number of records: {{range}}</p>
       </div>
@@ -45,7 +43,8 @@ export default {
   data () {
     return {
       range: 2000,
-      elems: []
+      elems: [],
+      activatePurchases: false
     }
   },
   computed: {

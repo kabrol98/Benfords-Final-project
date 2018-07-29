@@ -1,6 +1,6 @@
 <template>
     <div id="statepops">
-      <h3>Dataset 2: State Populations</h3>
+      <h2>Dataset 2: State Populations</h2>
       <p>The following data is from a dataset about refugees in the United States.
         We're only interested, however, in the estimated populstions of U.S. States as estimated
         in 2014. Here's a few records of the data.</p>
@@ -16,13 +16,14 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <h2>Benford's State Populations</h2>
       <p>
       Now, we only have 50 records so it's not abundantly likely that we'll find a strong correlation. Here's the plotted leading digits:
       </p>
-      <!-- <md-button class="md-raised" @click="testbenford">Check benford equation</md-button> -->
-      <data-viz :data="benfordPoints" xcol="x" ycol="y" id="state-pop-benford"/>
-      <div class="slidecontainer">
-        <p>use this slider to control the number of states we use.</p>
+      <md-button class='md-raised' @click='activatePopulation = !activatePopulation'>Toggle Visualization </md-button>
+      <div class="statepop" v-show="activatePopulation">
+        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="state-pop-benford" :activate="activatePopulation"/>
+        <p>Use this slider to control the number of states we use.</p>
         0<input type="range" min="1" max="50" v-model="range" class="slider" id="myRange">50
         <p>Number of records: {{range}}</p>
       </div>
@@ -42,7 +43,8 @@ export default {
   data () {
     return {
       range: 20,
-      elems: []
+      elems: [],
+      activatePopulation: false
     }
   },
   computed: {

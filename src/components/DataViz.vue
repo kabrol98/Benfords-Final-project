@@ -1,6 +1,5 @@
 <template>
   <div id = 'vizualizatiion'>
-    <md-button class='md-raised' @click='activate = !activate'>Toggle Visualization </md-button>
     <br/>
     <div v-show='activate'>
     <svg :id='id' width='90' height='50'></svg>
@@ -15,8 +14,7 @@ export default {
   data () {
     return {
       width: 960,
-      height: 500,
-      activate: false
+      height: 500
     }
   },
   computed: {
@@ -34,6 +32,10 @@ export default {
     xcol: String,
     ycol: String,
     id: String,
+    activate: {
+      type: Boolean,
+      default () { return false }
+    },
     xlabel: {
       default () { return 'Leading Digit' }
     }

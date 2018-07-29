@@ -1,7 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <md-button class="md-raised" >About this project</md-button>
+    <h3>An interactive visualization by Karan Abrol</h3>
+    <!-- <md-button class="md-raised" >About this project</md-button> -->
     <walkthrough/>
     <h2>Links and sources</h2>
     <ul>
