@@ -84,12 +84,28 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Hello to Your Vue.js App'
     }
+  },
+  methods: {
+    async fetchData () {
+      try {
+        const resp = await axios.get('http://localhost:5000/BlackFridayFiltered.json')
+        if(!resp.data.error){
+          console.log(resp)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  created () {
+    this.fetchData()
   }
 }
 </script>
