@@ -2,8 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <md-button class="md-raised" >About this project</md-button>
-    <walkthrough :elems="data"/>
-    <h2>Essential Links</h2>
+    <walkthrough/>
+    <h2>Links and sources</h2>
     <ul>
       <li>
         <a
@@ -11,6 +11,14 @@
           target="_blank"
         >
           Vue.js
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://vuematerial.io/"
+          target="_blank"
+        >
+          Vue Material
         </a>
       </li>
       <li>
@@ -37,13 +45,20 @@
           Black Friday Data
         </a>
       </li>
+      <li>
+        <a
+          href="https://github.com/BuzzFeedNews/2015-11-refugees-in-the-united-states"
+          target="_blank"
+        >
+          U.S. Census Data
+        </a>
+      </li>
       <br>
     </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import Walkthrough from './Walkthrough'
 
 export default {
@@ -53,28 +68,6 @@ export default {
       msg: 'Benford\'s Law',
       data: []
     }
-  },
-  methods: {
-    async fetchData () {
-      try {
-        const resp = await axios.get('http://ddv-final.herokuapp.com/BlackFridayFiltered.json')
-        if (!resp.data.error) {
-          // console.log(resp.data)
-          this.data = resp.data
-          this.data.map((d) => {
-            delete d.Product_Category_1
-            delete d.Product_Category_2
-            delete d.Product_Category_3
-            return d
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  },
-  created () {
-    this.fetchData()
   },
   components: {
     Walkthrough

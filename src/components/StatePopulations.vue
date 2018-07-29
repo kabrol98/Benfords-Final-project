@@ -1,7 +1,9 @@
 <template>
     <div id="statepops">
       <h3>Dataset 2: State Populations</h3>
-      <p>The following data is from a Kaggle entry on sales during Black Friday. Here's a few records of the plotted data.</p>
+      <p>The following data is from a dataset about refugees in the United States.
+        We're only interested, however, in the estimated populstions of U.S. States as estimated
+        in 2014. Here's a few records of the data.</p>
       <md-table>
         <md-table-row>
           <md-table-head v-for="(i, key, val) in elems[0]" :key="val">
@@ -14,24 +16,20 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
-      <p>Let's plot the amount of money purchased for a couple of records.
-      The following chart plots the amount purchased by User_ID for four records.</p>
-      <data-viz :data="mini" xcol="User_ID" ycol="Purchase" id="black-friday-1"/>
       <p>
-      That looks good. Now the dat for amount of money purchased spans quite a few orders of magnitude.
-      It seems like this would be perfect for a demonstration of Benford's law. Let's try plotting the frequency
-      of each leading digit for the purchases column.</p>
+      Now, we only have 50 records so it's not abundantly likely that we'll find a strong correlation. Here's the plotted leading digits:
+      </p>
       <!-- <md-button class="md-raised" @click="testbenford">Check benford equation</md-button> -->
-      <data-viz :data="benfordPoints" xcol="x" ycol="y" id="black-friday-benford"/>
+      <data-viz :data="benfordPoints" xcol="x" ycol="y" id="state-pop-benford"/>
       <div class="slidecontainer">
-        <p>use this slider to control the number of values we use.</p>
-        0<input type="range" min="1" max="5000" v-model="range" class="slider" id="myRange">5000
+        <p>use this slider to control the number of states we use.</p>
+        0<input type="range" min="1" max="50" v-model="range" class="slider" id="myRange">50
         <p>Number of records: {{range}}</p>
       </div>
       <br/>
       <p>
-        Interesting, isn't it? The numbers don't really seem to follow a logarithmic downward trend, but they DEFINITELY
-        favor 1 as a leading digit. let's look at some other examples.
+        Well! Even with just 50 records, you wouldn't expect such a good correlation, but, with the exception of 6,
+        pretty much all the values taper off after 1 logarithmically! Let's look at what else we can do. State populations are cool, but what about world populations?
       </p>
     </div>
 </template>
@@ -43,8 +41,8 @@ export default {
   name: 'StatePopulations',
   data () {
     return {
-      range: 2000,
-      data: null
+      range: 20,
+      elems: []
     }
   },
   computed: {
@@ -58,7 +56,7 @@ export default {
       let dat = Array.from(this.elems).slice(1, r)
       let resp = [0, 0, 0, 0, 0, 0, 0, 0, 0]
       dat = dat.reduce((prev, d) => {
-        prev.push({x: d['User_ID'], y: parseInt(d['Purchase'])})
+        prev.push({x: d['state'], y: parseInt(d['pop_est_2014'])})
         return prev
       }, [])
       for (let i in dat) {
@@ -75,7 +73,6 @@ export default {
       return resp
     }
   },
-  props: ['elems'],
   components: {
     DataViz
   },
@@ -87,8 +84,7 @@ export default {
       try {
         const resp = await axios.get('http://ddv-final.herokuapp.com/census-state-populations.json')
         if (!resp.data.error) {
-          console.log(resp.data)
-          this.data = resp.data
+          this.elems = resp.data
         } else {
           console.log(resp.data.error)
         }

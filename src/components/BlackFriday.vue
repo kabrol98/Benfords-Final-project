@@ -38,11 +38,14 @@
 
 <script>
 import DataViz from './DataViz'
+import axios from 'axios'
+
 export default {
   name: 'BlackFriday',
   data () {
     return {
-      range: 2000
+      range: 2000,
+      elems: []
     }
   },
   computed: {
@@ -73,14 +76,30 @@ export default {
       return resp
     }
   },
-  props: ['elems'],
   components: {
     DataViz
   },
   methods: {
-    testbenford () {
-      console.log(this.range, this.benfordPoints)
+    async fetchData () {
+      try {
+        const resp = await axios.get('http://ddv-final.herokuapp.com/BlackFridayFiltered.json')
+        if (!resp.data.error) {
+          // console.log(resp.data)
+          this.elems = resp.data
+          this.elems.map((d) => {
+            delete d.Product_Category_1
+            delete d.Product_Category_2
+            delete d.Product_Category_3
+            return d
+          })
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
+  },
+  created () {
+    this.fetchData()
   }
 }
 </script>

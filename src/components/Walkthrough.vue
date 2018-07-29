@@ -1,5 +1,5 @@
 <template>
-  <md-steppers>
+  <md-steppers md-dynamic-height :md-active-step.sync="active">
     <md-step id="first" md-label="Introduction">
       <p>Benford’s law is about a frequency distribution of numbers that span multiple orders of magnitude.
       Specifically, it concerns the leading or most significant digit in such a distribution.
@@ -15,12 +15,18 @@
       Benford’s law states that this is far from the case. There’s around a 30% chance of getting 1 and 5% chance of getting 9, and
       the graph, in general, follows a logarithmic scale (the logarithmic scale is also the reason for this law). This lawis, of course,
       subject to many things, among them the number of entries, the values they span and the variataion in distribution. Let's find out how they work.</p>
+      <md-button class="md-raised md-primary" @click="active='second'">Continue</md-button>
     </md-step>
-    <md-step id="second" md-label="Black Friday Sales">
-      <black-friday :elems="elems" />
+    <md-step id="second" md-label="Black Friday Purchases">
+      <black-friday/>
+      <md-button class="md-primary md-raised" @click="active='third'">Continue</md-button>
     </md-step>
-    <md-step id="third" md-label="Census State Populationss">
-      <state-populations :elems="elems" />
+    <md-step id="third" md-label="State Populations">
+      <state-populations/>
+      <md-button class="md-raised md-primary" @click="active='fourth'">Continue</md-button>
+    </md-step>
+    <md-step id="fourth" md-label="App Store Reviews">
+      <!-- <state-populations/> -->
     </md-step>
   </md-steppers>
 </template>
@@ -33,19 +39,13 @@ export default {
   name: 'Walkthrough',
   data () {
     return {
-      range: 2000
+      active: 'first'
     }
   },
-  props: ['elems'],
   components: {
     DataViz,
     BlackFriday,
     StatePopulations
-  },
-  methods: {
-    testbenford () {
-      console.log(this.range, this.benfordPoints)
-    }
   }
 }
 </script>
