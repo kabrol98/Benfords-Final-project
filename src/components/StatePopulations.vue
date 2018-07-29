@@ -22,7 +22,7 @@
       </p>
       <md-button class='md-raised' @click='activatePopulation = !activatePopulation'>Toggle Visualization </md-button>
       <div class="statepop" v-show="activatePopulation">
-        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="state-pop-benford" :activate="activatePopulation"/>
+        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="state-pop-benford" :activate="activatePopulation" xlabel="Leading Digit - State Populations"/>
         <p>Use this slider to control the number of states we use.</p>
         0<input type="range" min="1" max="50" v-model="range" class="slider" id="myRange">50
         <p>Number of records: {{range}}</p>
@@ -42,7 +42,7 @@ export default {
   name: 'StatePopulations',
   data () {
     return {
-      range: 20,
+      range: 10,
       elems: [],
       activatePopulation: false
     }

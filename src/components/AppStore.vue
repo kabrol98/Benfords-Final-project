@@ -23,8 +23,8 @@
       </p>
       <md-button class='md-raised' @click='activateBytes = !activateBytes'>Toggle Visualization </md-button>
       <div class="bytecount" v-show="activateBytes">
-        <data-viz :data="benfordByteCount" xcol="x" ycol="y" id="appstore-bytes-benford" :activate="activateBytes"/>
-        <p>Use this slider to control the number of states we use.</p>
+        <data-viz :data="benfordByteCount" xcol="x" ycol="y" id="appstore-bytes-benford" :activate="activateBytes" xlabel="Leading Digit - App Size (in Bytes)"/>
+        <p>Use this slider to control the number of apps used.</p>
         0<input type="range" min="1" max="7198" v-model="range" class="slider" id="myRange">7198
         <p>Number of records: {{range}}</p>
       </div>
@@ -35,8 +35,8 @@
       </p>
       <md-button class='md-raised' @click='activateVersion = !activateVersion'>Toggle Visualization </md-button>
       <div class="versionreviews" v-show="activateVersion">
-        <data-viz :data="benfordVersionReviews" xcol="x" ycol="y" id="appstore-version-benford" :activate="activateVersion"/>
-        <p>Use this slider to control the number of states we use.</p>
+        <data-viz :data="benfordVersionReviews" xcol="x" ycol="y" id="appstore-version-benford" :activate="activateVersion" xlabel="Leading Digit - Current Version Reviews"/>
+        <p>Use this slider to control the number of apps used.</p>
         0<input type="range" min="1" max="7198" v-model="range" class="slider" id="myRange">7198
         <p>Number of records: {{range}}</p>
       </div>
@@ -47,8 +47,8 @@
       </p>
       <md-button class='md-raised' @click='activateTotal = !activateTotal'>Toggle Visualization </md-button>
       <div class="totalReviews" v-show="activateTotal">
-        <data-viz :data="benfordTotalReviews" xcol="x" ycol="y" id="appstore-total-benford" :activate="activateTotal"/>
-        <p>Use this slider to control the number of states we use.</p>
+        <data-viz :data="benfordTotalReviews" xcol="x" ycol="y" id="appstore-total-benford" :activate="activateTotal" xlabel="Leading Digit - Total Reviews"/>
+        <p>Use this slider to control the number of apps used.</p>
         0<input type="range" min="1" max="7198" v-model="range" class="slider" id="myRange">7198
         <p>Number of records: {{range}}</p>
       </div>
@@ -65,7 +65,7 @@ export default {
   name: 'AppStore',
   data () {
     return {
-      range: 20,
+      range: 10,
       elems: [],
       activateBytes: false,
       activateVersion: false,

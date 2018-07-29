@@ -21,7 +21,7 @@
       of each leading digit for the purchases column.</p>
       <md-button class='md-raised' @click='activatePurchases = !activatePurchases'>Toggle Visualization </md-button>
       <div class="purchasesViz" v-show="activatePurchases">
-        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="black-friday-benford" :activate="activatePurchases"/>
+        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="black-friday-benford" :activate="activatePurchases" xlabel="Leading Digit - Purchase Amount (in U.S.D)"/>
         <p>Use this slider to control the number of values we use.</p>
         0<input type="range" min="1" max="5000" v-model="range" class="slider" id="myRange">5000
         <p>Number of records: {{range}}</p>
@@ -42,7 +42,7 @@ export default {
   name: 'BlackFriday',
   data () {
     return {
-      range: 2000,
+      range: 10,
       elems: [],
       activatePurchases: false
     }

@@ -1,10 +1,10 @@
 <template>
-  <div id = 'vizualizatiion'>
-    <br/>
+  <div id="viz">
     <div v-show='activate'>
     <svg :id='id' width='90' height='50'></svg>
     <h2><b>{{xlabel}}</b></h2>
     </div>
+    <div class='tooltip' id='tip' style='visibility: hidden'></div>
   </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
   name: 'DataViz',
   data () {
     return {
-      width: 960,
+      width: 860,
       height: 500
     }
   },
@@ -67,6 +67,14 @@ export default {
       let height = +svg.attr('height') - margin.top - margin.bottom
       // console.log('height = '+svg.attr('height'))
 
+      // Define the div for the tooltip
+      // let div = d3.select('body').append('div')
+      //   .attr('class', 'tooltip')
+      //   .style('opacity', 0)
+      //   .text('AAA')
+      let div = d3.select('#tip')
+      // console.log(div)
+
       let x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
       let y = d3.scaleLinear().rangeRound([height, 0])
 
@@ -102,6 +110,18 @@ export default {
         .attr('fill', 'steelblue')
         .attr('width', x.bandwidth())
         .attr('height', function (d) { return height - y(d.y) })
+        .on('mouseover', function (d) {
+          div.style('opacity', 1)
+            .style('visibility', 'visible')
+            .style('left', (d3.event.pageX) + 'px')
+            .style('top', (d3.event.pageY - 28) + 'px')
+          console.log(div.style('opacity'))
+          return div
+        })
+        // .on('mouseout', function (d) {
+        //   div.style('opacity', 0)
+        //   return div
+        // })
     }
   }
 }
@@ -127,7 +147,14 @@ h1, h2 {
   fill: steelblue;
 }
 
-.bar:hover {
-  fill: brown;
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
 }
 </style>
