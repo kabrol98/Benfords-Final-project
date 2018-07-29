@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <md-button class="md-raised" >About this project</md-button>
+    <walkthrough :elems="data"/>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -8,96 +10,63 @@
           href="https://vuejs.org"
           target="_blank"
         >
-          Core Docs
+          Vue.js
         </a>
       </li>
       <li>
         <a
-          href="https://forum.vuejs.org"
+          href="https://www.github.com/kabrol98"
           target="_blank"
         >
-          Forum
+          My Github
         </a>
       </li>
       <li>
         <a
-          href="https://chat.vuejs.org"
+          href="https://en.wikipedia.org/wiki/Benford%27s_law"
           target="_blank"
         >
-          Community Chat
+          Benford's Law
         </a>
       </li>
       <li>
         <a
-          href="https://twitter.com/vuejs"
+          href="https://www.kaggle.com/mehdidag/black-friday"
           target="_blank"
         >
-          Twitter
+          Black Friday Data
         </a>
       </li>
       <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
     </ul>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Walkthrough from './Walkthrough'
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Hello to Your Vue.js App'
+      msg: 'Benford\'s Law',
+      data: []
     }
   },
   methods: {
     async fetchData () {
       try {
-        const resp = await axios.get('http://localhost:5000/BlackFridayFiltered.json')
-        if(!resp.data.error){
-          console.log(resp)
+        const resp = await axios.get('http://ddv-final.herokuapp.com/BlackFridayFiltered.json')
+        if (!resp.data.error) {
+          console.log(resp.data)
+          this.data = resp.data
+          this.data.map((d) => {
+            delete d.Product_Category_1
+            delete d.Product_Category_2
+            delete d.Product_Category_3
+            return d
+          })
         }
       } catch (error) {
         console.log(error)
@@ -106,6 +75,9 @@ export default {
   },
   created () {
     this.fetchData()
+  },
+  components: {
+    Walkthrough
   }
 }
 </script>

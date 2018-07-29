@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1> What is happening </h1>
     <router-view/>
   </div>
 </template>
 
 <script>
+
+import Vue from 'vue'
+import {MdButton, MdContent, MdTabs, MdSteppers, MdTable} from 'vue-material/dist/components'
+import 'vue-material/dist/vue-material.min.css'
+
+Vue.use(MdButton)
+Vue.use(MdTable)
+Vue.use(MdSteppers)
+Vue.use(MdContent)
+Vue.use(MdTabs)
 export default {
   name: 'App'
 }

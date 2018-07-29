@@ -1,8 +1,8 @@
 import csv
 import json
 
-infile = open('BlackFriday.csv', 'r')
-outfile = open('BlackFridayFiltered.csv', 'w')
+infile = open('census-state-populations.csv', 'r')
+outfile = open('census-state-populations.csv', 'w')
 
 lines = infile.readlines()
 
