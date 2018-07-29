@@ -53,7 +53,14 @@
           U.S. Census Data
         </a>
       </li>
-      <br>
+      <li>
+        <a
+          href="https://www.kaggle.com/ramamet4/app-store-apple-data-set-10k-apps"
+          target="_blank"
+        >
+          App Store Data
+        </a>
+      </li>
     </ul>
   </div>
 </template>

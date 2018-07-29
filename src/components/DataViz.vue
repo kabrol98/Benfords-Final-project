@@ -1,8 +1,11 @@
 <template>
   <div id = 'vizualizatiion'>
-    <md-button class='md-raised' @click="activate = !activate">Toggle Visualization </md-button>
+    <md-button class='md-raised' @click='activate = !activate'>Toggle Visualization </md-button>
     <br/>
-    <svg :id="id" width='90' height='50'></svg>
+    <div v-show='activate'>
+    <svg :id='id' width='90' height='50'></svg>
+    <h2><b>{{xlabel}}</b></h2>
+    </div>
   </div>
 </template>
 <script>
@@ -26,34 +29,38 @@ export default {
       }, [])
     }
   },
-  props: ['data', 'xcol', 'ycol', 'id'],
+  props: {
+    data: Array,
+    xcol: String,
+    ycol: String,
+    id: String,
+    xlabel: {
+      default () { return 'Leading Digit' }
+    }
+  },
   watch: {
     data () {
       if (this.activate) {
-        let svg = d3.select('#' + this.id)
-        svg.selectAll('*').remove()
-        this.generateViz()
+        this.refreshViz()
       }
     },
     activate (val) {
-      if (val === true) this.generateViz()
-      else {
-        let svg = d3.select('#' + this.id)
-        svg.selectAll('*').remove()
-        svg.attr('width', 0)
-        svg.attr('height', 0)
-      }
+      if (val === true) this.refreshViz()
     }
   },
   methods: {
-    checkDat () {
-      console.log(this.data)
+    refreshViz () {
+      let svg = d3.select('#' + this.id)
+      svg.selectAll('*').remove()
+      svg.attr('width', this.width)
+      svg.attr('height', this.height)
+      this.generateViz()
     },
     generateViz () {
       let svg = d3.select('#' + this.id)
       svg.attr('width', this.width)
       svg.attr('height', this.height)
-      let margin = {top: 20, right: 20, bottom: 30, left: 40}
+      let margin = {top: 20, right: 20, bottom: 20, left: 40}
       let width = +svg.attr('width') - margin.left - margin.right
       let height = +svg.attr('height') - margin.top - margin.bottom
       // console.log('height = '+svg.attr('height'))
@@ -90,6 +97,7 @@ export default {
         .attr('class', 'bar')
         .attr('x', function (d) { return x(d.x) })
         .attr('y', function (d) { return y(d.y) })
+        .attr('fill', 'steelblue')
         .attr('width', x.bandwidth())
         .attr('height', function (d) { return height - y(d.y) })
     }

@@ -16,7 +16,7 @@
       </md-table>
       <p>Let's plot the amount of money purchased for a couple of records.
       The following chart plots the amount purchased by User_ID for four records.</p>
-      <data-viz :data="mini" xcol="User_ID" ycol="Purchase" id="black-friday-1"/>
+      <data-viz :data="mini" xcol="User_ID" ycol="Purchase" id="black-friday-1" xlabel="User_ID"/>
       <p>
       That looks good. Now the dat for amount of money purchased spans quite a few orders of magnitude.
       It seems like this would be perfect for a demonstration of Benford's law. Let's try plotting the frequency

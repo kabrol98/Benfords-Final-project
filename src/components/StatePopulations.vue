@@ -29,7 +29,7 @@
       <br/>
       <p>
         Well! Even with just 50 records, you wouldn't expect such a good correlation, but, with the exception of 6,
-        pretty much all the values taper off after 1 logarithmically! Let's look at what else we can do. State populations are cool, but what about world populations?
+        pretty much all the values taper off after 1 logarithmically! Let's look at what else we can do.
       </p>
     </div>
 </template>

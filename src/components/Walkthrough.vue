@@ -1,6 +1,6 @@
 <template>
   <md-steppers md-dynamic-height :md-active-step.sync="active">
-    <md-step id="first" md-label="Introduction">
+    <md-step id="first" md-label="Introduction" align="left">
       <p>Benford’s law is about a frequency distribution of numbers that span multiple orders of magnitude.
       Specifically, it concerns the leading or most significant digit in such a distribution.
       For example, the leading digit of 392 is 3, that of 1042 is 1, and so on.
@@ -25,8 +25,8 @@
       <state-populations/>
       <md-button class="md-raised md-primary" @click="active='fourth'">Continue</md-button>
     </md-step>
-    <md-step id="fourth" md-label="App Store Reviews">
-      <!-- <state-populations/> -->
+    <md-step id="fourth" md-label="App Store">
+      <app-store></app-store>
     </md-step>
   </md-steppers>
 </template>
@@ -35,6 +35,7 @@
 import DataViz from './DataViz'
 import BlackFriday from './BlackFriday'
 import StatePopulations from './StatePopulations'
+import AppStore from './AppStore'
 export default {
   name: 'Walkthrough',
   data () {
@@ -45,7 +46,8 @@ export default {
   components: {
     DataViz,
     BlackFriday,
-    StatePopulations
+    StatePopulations,
+    AppStore
   }
 }
 </script>
