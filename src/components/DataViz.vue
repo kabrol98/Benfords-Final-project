@@ -1,10 +1,10 @@
 <template>
-  <div id="viz">
+  <div id="viz" >
     <div v-show='activate'>
-    <svg :id='id' width='90' height='50'></svg>
+    <svg :id='id' height='50'></svg>
     <h2><b>{{xlabel}}</b></h2>
     </div>
-    <div class='tooltip' id='tip' style='visibility: hidden'></div>
+    <!-- <div class='tooltip' id='tip' style='visibility: hidden'></div> -->
   </div>
 </template>
 <script>
@@ -13,7 +13,6 @@ export default {
   name: 'DataViz',
   data () {
     return {
-      width: 860,
       height: 500
     }
   },
@@ -40,6 +39,9 @@ export default {
       default () { return 'Leading Digit' }
     }
   },
+  created () {
+    window.addEventListener('resize', this.refreshViz)
+  },
   watch: {
     data () {
       if (this.activate) {
@@ -54,25 +56,30 @@ export default {
     refreshViz () {
       let svg = d3.select('#' + this.id)
       svg.selectAll('*').remove()
-      svg.attr('width', this.width)
       svg.attr('height', this.height)
       this.generateViz()
     },
     generateViz () {
+      // Set variable width
+      let bod = document.getElementsByTagName('body')[0]
+      // console.log(bod.clientWidth)
+      let factor = 0.75
+      let divWidth = parseInt(bod.clientWidth * factor)
+
       let svg = d3.select('#' + this.id)
-      svg.attr('width', this.width)
       svg.attr('height', this.height)
+      svg.attr('width', divWidth)
       let margin = {top: 20, right: 20, bottom: 20, left: 40}
       let width = +svg.attr('width') - margin.left - margin.right
       let height = +svg.attr('height') - margin.top - margin.bottom
-      // console.log('height = '+svg.attr('height'))
+      // console.log('width = ' + svg.attr('width'))
 
       // Define the div for the tooltip
-      // let div = d3.select('body').append('div')
-      //   .attr('class', 'tooltip')
-      //   .style('opacity', 0)
-      //   .text('AAA')
-      let div = d3.select('#tip')
+      let div = d3.select('body').append('div')
+        .attr('class', 'tooltip')
+        .style('opacity', 0)
+        .text('AAA')
+      // let div = d3.select('#tip')
       // console.log(div)
 
       let x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
@@ -115,7 +122,7 @@ export default {
             .style('visibility', 'visible')
             .style('left', (d3.event.pageX) + 'px')
             .style('top', (d3.event.pageY - 28) + 'px')
-          console.log(div.style('opacity'))
+          // console.log(div.style('opacity'))
           return div
         })
         // .on('mouseout', function (d) {

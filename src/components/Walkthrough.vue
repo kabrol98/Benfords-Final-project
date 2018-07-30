@@ -1,6 +1,6 @@
 <template>
   <md-steppers md-dynamic-height :md-active-step.sync="active">
-    <md-step id="first" md-label="Introduction">
+    <md-step id="scene1" md-label="Introduction">
       <p align="left">Benford’s law is about a frequency distribution of numbers that span multiple orders of magnitude.
       Specifically, it concerns the leading or most significant digit in such a distribution.
       For example, the leading digit of 392 is 3, that of 1042 is 1, and so on.
@@ -19,27 +19,36 @@
         I'm going to look for values in these datasets that span multiple orders of magnitude, and plot their leading digits to find
         out how credible Benford's Law really is.
       </p>
-      <md-button class="md-raised md-primary" @click="active='second'">Continue</md-button>
+      <md-button class="md-raised md-primary" @click="moveForward">Continue</md-button>
     </md-step>
-    <md-step id="second" md-label="Black Friday Purchases">
+    <md-step id="scene2" md-label="Black Friday Purchases">
       <black-friday/>
-      <md-button class="md-primary md-raised" @click="active='third'">Continue</md-button>
+      <div class="md-layout">
+      <div class="md-layout-item"><md-button class="md-primary md-raised" @click="moveBackward">Back</md-button></div>
+      <div class="md-layout-item"><md-button class="md-primary md-raised" @click="moveForward">Continue</md-button></div>
+      </div>
     </md-step>
-    <md-step id="third" md-label="State Populations">
+    <md-step id="scene3" md-label="State Populations">
       <state-populations/>
-      <md-button class="md-raised md-primary" @click="active='fourth'">Continue</md-button>
+      <div class="md-layout">
+        <div class="md-layout-item"><md-button class="md-primary md-raised" @click="moveBackward">Back</md-button></div>
+        <div class="md-layout-item"><md-button class="md-primary md-raised" @click="moveForward">Continue</md-button></div>
+      </div>
     </md-step>
-    <md-step id="fourth" md-label="App Store">
+    <md-step id="scene4" md-label="App Store">
       <app-store></app-store>
-      <md-button class="md-raised md-primary" @click="active='fifth'">Continue</md-button>
+      <div class="md-layout">
+        <div class="md-layout-item"><md-button class="md-primary md-raised" @click="moveBackward">Back</md-button></div>
+        <div class="md-layout-item"><md-button class="md-primary md-raised" @click="moveForward">Continue</md-button></div>
+      </div>
     </md-step>
-    <md-step id="fifth" md-label="About This Visualization" align="left">
-      <p>
+    <md-step id="scene5" md-label="About This Visualization">
+      <p align='left'>
         My visualization uses an interactive slideshow to show the user how different kinds of data all follow Benford's Law.
         I used a reactive front end framework called Vue.js, and a component library called Vue Material to build the necessary
         UI components and transitions. The relevant links to both are at the bottom of this web page. All the charts were built using d3.js.
       </p>
-      <p>
+      <p align='left'>
         The visualization has four scenes (five, including this essay) that the user can navigate through while on the webpage.
         There are headings at the top which, when clicked, will take the user to the slide of their choice. There are also buttons
         at the bottom of the first four slides that take the user forward through the visualization. The transitions are highlighted by
@@ -48,19 +57,19 @@
         The template for each slide, however, is the same, a table with an overview followed by a graphical representation of Benford's law,
         in order to show the reader that these different datasets all follow the same law.
       </p>
-      <p>
+      <p align='left'>
         The first slide is simply an introduction to Benford's law, and a little bit about the math involved in plotting the results
         as a chart (E.g. how to obtain the leading digit of a number).The three main slides pull data from Black Friday sales data, U.S. census
         data and the Apple App store respectively. In each main slide, 10 records from each dataset are first shown in table form.
         Then the user can click a button to open a visualization of the frequency of each leading digit (from 1 to 9) in one of the parameters shown on the table.
       </p>
-      <p>
+      <p align='left'>
         I've included annotations as lines of text describing the data and the visualizations, so that each slide reads as though it was its own
         interactive document. The reason for this is to make the design of the experience look simple and unobtrusive, and ensure that each individual slide
         is considered consistent with the previous ones yet in terms of theme yet separate in terms of content. The annotations are cleared between scenes to show that
         the dataset that the slide is focused on has also changed.
       </p>
-      <p>
+      <p align='left'>
         The dataset being used can be changwd by changing the slide. The tiles showing the slides darken when the mouse hovers over them to show
         they can be pressed to cause a slide change. The 'continue' button at the end of each slide is also raised for the same reason.
         The user can access the charts by clicking on a button that toggles the visualization. The button is raised, indicating to the user that it can
@@ -70,6 +79,7 @@
         the graph reactively adjusts to accomodate the use of more data points. The annotation text above the slider tells the user that they
         can change the values.
       </p>
+      <md-button class="md-primary md-raised" @click="moveBackward">Back</md-button>
     </md-step>
   </md-steppers>
 </template>
@@ -83,7 +93,7 @@ export default {
   name: 'Walkthrough',
   data () {
     return {
-      active: 'first'
+      active: 'scene1'
     }
   },
   components: {
@@ -91,6 +101,20 @@ export default {
     BlackFriday,
     StatePopulations,
     AppStore
+  },
+  methods: {
+    moveForward () {
+      let index = parseInt(this.active.slice(-1))
+      if (index < 5) index++
+      this.active = 'scene' + index.toString()
+      window.scrollTo(0, 0)
+    },
+    moveBackward () {
+      let index = parseInt(this.active.slice(-1))
+      if (index > 1) index--
+      this.active = 'scene' + index.toString()
+      window.scrollTo(0, 0)
+    }
   }
 }
 </script>

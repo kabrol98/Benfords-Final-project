@@ -20,13 +20,13 @@
       <p>
       Now, we only have 50 records so it's not abundantly likely that we'll find a strong correlation. Here's the plotted leading digits:
       </p>
-      <md-button class='md-raised' @click='activatePopulation = !activatePopulation'>Toggle Visualization </md-button>
-      <div class="statepop" v-show="activatePopulation">
-        <data-viz :data="benfordPoints" xcol="x" ycol="y" id="state-pop-benford" :activate="activatePopulation" xlabel="Leading Digit - State Populations"/>
-        <p>Use this slider to control the number of states we use.</p>
-        0<input type="range" min="1" max="50" v-model="range" class="slider" id="myRange">50
-        <p>Number of records: {{range}}</p>
-      </div>
+      <benford-viz
+        :elems="elems"
+        id="state-pop-viz"
+        x="state"
+        val="pop_est_2014"
+        label="Leading Digit - State Population"
+        @shuffle="shuffleArray"/>
       <br/>
       <p>
         Well! Even with just 50 records, you wouldn't expect such a good correlation, but, with the exception of 6,
@@ -38,6 +38,7 @@
 <script>
 import DataViz from './DataViz'
 import axios from 'axios'
+import BenfordViz from './BenfordViz'
 export default {
   name: 'StatePopulations',
   data () {
@@ -52,36 +53,13 @@ export default {
       let resp = Array.from(this.elems)
       // console.log(resp)
       return resp.slice(1, 10)
-    },
-    benfordPoints () {
-      let r = this.range
-      let dat = Array.from(this.elems).slice(1, r)
-      let resp = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-      dat = dat.reduce((prev, d) => {
-        prev.push({x: d['state'], y: parseInt(d['pop_est_2014'])})
-        return prev
-      }, [])
-      for (let i in dat) {
-        // Formula: FLOOR(x/POWER(10, FLOOR(LOG(x,10))))
-        let a = Math.floor(Math.log(dat[i].y) / Math.log(10))
-        let b = 10 ** a
-        let c = Math.floor(dat[i].y / b)
-        resp[c - 1]++
-      }
-      resp = resp.reduce((prev, val, i) => {
-        prev.push({x: i + 1, y: val})
-        return prev
-      }, [])
-      return resp
     }
   },
   components: {
-    DataViz
+    DataViz,
+    BenfordViz
   },
   methods: {
-    testbenford () {
-      console.log(this.range, this.benfordPoints)
-    },
     async fetchData () {
       try {
         const resp = await axios.get('http://ddv-final.herokuapp.com/census-state-populations.json')
@@ -93,6 +71,21 @@ export default {
       } catch (error) {
         console.error(error)
       }
+    },
+    shuffleArray () {
+      let m = this.elems.length
+      let t, i
+      let array = Array.from(this.elems)
+      // While there remain elements to shuffle…
+      while (m) {
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--)
+        // And swap it with the current element.
+        t = array[m]
+        array[m] = array[i]
+        array[i] = t
+      }
+      this.elems = array
     }
   },
   created () {

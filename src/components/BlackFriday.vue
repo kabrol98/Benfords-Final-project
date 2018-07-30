@@ -19,13 +19,20 @@
       Now, the data for amount of money purchased spans a few orders of magnitude.
       It seems like this would be perfect for a demonstration of Benford's law. Let's try plotting the frequency
       of each leading digit for the purchases column.</p>
-      <md-button class='md-raised' @click='activatePurchases = !activatePurchases'>Toggle Visualization </md-button>
+      <!-- <md-button class='md-raised' @click='activatePurchases = !activatePurchases'>Toggle Visualization </md-button>
       <div class="purchasesViz" v-show="activatePurchases">
         <data-viz :data="benfordPoints" xcol="x" ycol="y" id="black-friday-benford" :activate="activatePurchases" xlabel="Leading Digit - Purchase Amount (in U.S.D)"/>
         <p>Use this slider to control the number of values we use.</p>
         0<input type="range" min="1" max="5000" v-model="range" class="slider" id="myRange">5000
         <p>Number of records: {{range}}</p>
-      </div>
+      </div> -->
+      <benford-viz
+        :elems="elems"
+        id="black-friday-viz"
+        x="Product_ID"
+        val="Purchase"
+        label="Leading Digit - Purchase Amount (in U.S.D)"
+        @shuffle="shuffleArray"/>
       <br/>
       <p>
         Interesting, isn't it? The numbers don't really seem to follow a logarithmic downward trend, but they DEFINITELY
@@ -37,6 +44,7 @@
 <script>
 import DataViz from './DataViz'
 import axios from 'axios'
+import BenfordViz from './BenfordViz'
 
 export default {
   name: 'BlackFriday',
@@ -76,7 +84,8 @@ export default {
     }
   },
   components: {
-    DataViz
+    DataViz,
+    BenfordViz
   },
   methods: {
     async fetchData () {
@@ -95,6 +104,21 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    shuffleArray () {
+      let m = this.elems.length
+      let t, i
+      let array = Array.from(this.elems)
+      // While there remain elements to shuffle…
+      while (m) {
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--)
+        // And swap it with the current element.
+        t = array[m]
+        array[m] = array[i]
+        array[i] = t
+      }
+      this.elems = array
     }
   },
   created () {

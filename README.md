@@ -1,6 +1,7 @@
 # ddv-final
 
-> An interactive demonstration of Benford's law. Coursework for CS498 at the University oif Illinois.
+> An interactive demonstration of Benford's law. Coursework for CS498 at the University of Illinois.
+The project is live at ddv-final.herokuapp.com
 
 ## Build Setup
 
